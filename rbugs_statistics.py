@@ -60,12 +60,14 @@ def do_plot(flair_stats, filename):
     total_plot = sns.pointplot(x=months, y=total, color=total_plot_color)
     sns.pointplot(x=months, y=new_flaired, color=ignored_plot_color)
 
-    total_patch = mpatches.Patch(color=total_plot_color, label='Total number of bugreport')
-    ignored_patch = mpatches.Patch(color=ignored_plot_color, label='Ignored number of bugreport')
+    total_patch = mpatches.Patch(color=total_plot_color)
+    ignored_patch = mpatches.Patch(color=ignored_plot_color)
 
     total_plot.set(ylabel="Number of bugreports", xlabel="Month")
-    sns.plt.title('/r/bugs statistics\n')
-    sns.plt.legend([total_patch, ignored_patch], ['Total number of bugreports', 'Number of ignored bugreports'], loc="lower right")
+    total_plot.set_title('/r/bugs statistics by month:\nReddit admins consistently ignore half of bugreports', y=1.02)
+    sns.plt.legend([total_patch, ignored_patch], ['Total number of bugreports',
+                                                  'Number of ignored bugreports (submissions with "new" flair)'],
+                   loc="lower left")
 
     sns.plt.savefig(filename)
 
