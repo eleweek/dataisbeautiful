@@ -5,12 +5,10 @@ import shelve
 from operator import itemgetter
 import matplotlib.image as mpimg
 import praw
-# Requires: https://github.com/praw-dev/praw/pull/554
-# My fork already contains this change: pip install https://github.com/eleweek/praw
-from praw.helpers import all_submissions
+from praw.helpers import submissions_between
 
 user = os.environ['REDDIT_USERNAME']
-user_agent = 'Calculating % of downvoted submissions in 0.1 by /u/{}'
+user_agent = 'Calculating % of downvoted submissions 0.1 by /u/{}'
 subreddit_stats = shelve.open("subreddit_stats.shelve", writeback=True)
 
 highest_timestamp = 1449446399  # 06.12.2015
@@ -53,11 +51,11 @@ def get_subreddit_stats(sublist, subreddit_stats):
             continue
         downvoted_submissions = 0
         total_submissions = 0
-        for submission in all_submissions(r,
-                                          sub,
-                                          lowest_timestamp=lowest_timestamp,
-                                          highest_timestamp=highest_timestamp,
-                                          verbosity=0):
+        for submission in submissions_between(r,
+                                              sub,
+                                              lowest_timestamp=lowest_timestamp,
+                                              highest_timestamp=highest_timestamp,
+                                              verbosity=0):
             assert submission.created_utc <= highest_timestamp and submission.created_utc >= lowest_timestamp
             if submission.score <= 0:
                 downvoted_submissions += 1

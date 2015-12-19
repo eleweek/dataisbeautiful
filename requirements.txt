@@ -1,2 +1,2 @@
-git+https://github.com/eleweek/praw.git
+git+https://github.com/praw-dev/praw.git
 seaborn
