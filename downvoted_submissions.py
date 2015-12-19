@@ -9,6 +9,7 @@ from praw.helpers import submissions_between
 
 user = os.environ['REDDIT_USERNAME']
 user_agent = 'Calculating % of downvoted submissions 0.1 by /u/{}'
+r = praw.Reddit(user_agent)
 subreddit_stats = shelve.open("subreddit_stats.shelve", writeback=True)
 
 highest_timestamp = 1449446399  # 06.12.2015
@@ -91,7 +92,6 @@ def do_plot(subreddit_names, subreddit_stats, out_file, title, license_icon_file
     x = map(lambda x: x * 100, x)
 
     sns.set_style('whitegrid')
-    print sns.plotting_context()
     sns.set(font="Bitstream Vera Sans", style='whitegrid')
     sns.set_context(rc={"figure.figsize": (16, 11), "font_scale": 1.0})
     fig = sns.plt.figure()
@@ -121,7 +121,6 @@ def do_plot(subreddit_names, subreddit_stats, out_file, title, license_icon_file
 
     sns.plt.clf()
 
-r = praw.Reddit(user_agent)
 get_top_subreddits()
 top_defaults = subreddit_stats['_top_defaults'][:50]
 top_non_defaults = subreddit_stats['_top_non_defaults'][:50]
